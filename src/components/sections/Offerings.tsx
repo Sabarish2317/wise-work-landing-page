@@ -9,30 +9,15 @@ import {
   type MotionValue,
 } from "motion/react";
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SERVICE_PILLARS } from "@/content/site";
 
-const OFFERINGS = [
-  {
-    eyebrow: "Patent Tech Consulting",
-    title: "Patent Gym",
-    body: "Turn raw ideas into defensible patents with a programme led by a 120+ patent inventor.",
-  },
-  {
-    eyebrow: "Gen AI LLM",
-    title: "Large Language Models",
-    body: "Custom LLMs, RAG pipelines and agents tuned on your data and deployed in your cloud.",
-  },
-  {
-    eyebrow: "AIOps",
-    title: "Self-healing Infrastructure",
-    body: "Predictive monitoring that finds failing nodes early and fixes them automatically.",
-  },
-  {
-    eyebrow: "Metaverse",
-    title: "Virtual World Creation",
-    body: "Immersive 3D worlds and digital twins for training, retail and remote collaboration.",
-  },
-];
+const OFFERINGS = SERVICE_PILLARS.map((pillar, i) => ({
+  eyebrow: ["Strategy", "Cloud", "Gen AI · Agentic AI", "Automation"][i],
+  title: pillar.title,
+  body: pillar.body,
+}));
 
 const LAST = OFFERINGS.length - 1;
 
@@ -92,7 +77,7 @@ export const Offerings = () => {
   const imageScale = useTransform(imageProgress, [0, 0.45], [0.88, 1]);
   const imageInner = useTransform(imageProgress, [0, 1], [1.18, 1]);
   const imageY = useTransform(imageProgress, [0, 1], ["-6%", "6%"]);
-  const floatY = useTransform(imageProgress, [0, 1], [40, -40]);
+  const floatY = useTransform(imageProgress, [0, 1], [0, -48]);
 
   const { scrollYProgress: stackProgress } = useScroll({
     target: stackRef,
@@ -109,16 +94,13 @@ export const Offerings = () => {
     <section aria-labelledby="offerings-title" className="relative px-4 pt-16 sm:px-8 lg:px-16">
       <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-8">
         <SectionHeading
-          eyebrow="What"
-          inline
+          eyebrow="We Make It Smarter"
           title={
             <span id="offerings-title">
-              Trusted <span className="text-brand">Services</span>
-              <br />
-              We Offer for your company
+              End-to-End <span className="text-brand">AI and IT</span> Services
             </span>
           }
-          description="Deep-tech services, built and run by the people who invented them."
+          description="IT consulting, cloud services, AI and ML solutions and process automation, delivered at scale and speed."
         />
 
         {/* Isometric hero illustration — scales to full width as it enters. */}
@@ -145,7 +127,7 @@ export const Offerings = () => {
               <span className="absolute inset-0 animate-ping-soft rounded-full bg-good" />
               <span className="relative size-2 rounded-full bg-good" />
             </span>
-            4 practices · 1 team
+            Delivered by the team behind 140+ patents
           </motion.div>
         </motion.div>
       </div>
@@ -180,9 +162,12 @@ export const Offerings = () => {
                 />
               </span>
             </div>
-            <p className="absolute right-6 bottom-6 z-20 hidden font-mono text-sm text-white/90 sm:block">
-              Scroll to explore ↓
-            </p>
+            <Link
+              href="/services"
+              className="absolute right-5 bottom-5 z-20 rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-ink backdrop-blur-md transition-colors hover:bg-white sm:right-6 sm:bottom-6"
+            >
+              All services →
+            </Link>
 
             <div className="absolute top-1/2 left-1/2 h-[340px] w-[min(340px,82%)] -translate-x-1/2 -translate-y-1/2 sm:h-[360px] sm:w-[373.67px]">
               {OFFERINGS.map((offering, index) => (

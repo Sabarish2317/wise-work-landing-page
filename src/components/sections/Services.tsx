@@ -1,40 +1,48 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useMotionTemplate, useMotionValue } from "motion/react";
 import type { PointerEvent } from "react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { INDUSTRIES } from "@/content/site";
 
-const SERVICES = [
+const OFFERS = [
   {
-    eyebrow: "Intellectual Property Valuation",
-    title: ["Hyphenate your", "IP Valuations"],
-    body: "Data-backed valuations of your patents and IP portfolio, ready for funding, licensing and M&A.",
+    eyebrow: "4 Flagship Products",
+    title: ["Enterprise AI", "Platforms"],
+    body: "Wise Ultima™, Wise Migrate™, iStruct™ and Wise Maestro™ for infra health, migration, documents and knowledge.",
+    tags: ["Infra Health", "Cloud Migration", "Document AI", "Private GPT"],
+    href: "/#products",
     icon: "/figma/icon-reports.svg",
     glow: "linear-gradient(90deg, #94ecc4 0%, #90c0ff 55%, #66cfff 100%)",
   },
   {
-    eyebrow: "Automated Services",
-    title: ["Tailormade cloud", "Services"],
-    body: "Cloud architecture, automation and FinOps designed around how your teams actually ship.",
+    eyebrow: "End-to-End AI and IT",
+    title: ["AI and IT", "Services"],
+    body: "Gen AI and agentic AI, ML, custom development, IT consulting and process automation, delivered at scale and speed.",
+    tags: ["Gen AI", "Agentic AI", "Cloud", "Full-stack"],
+    href: "/services",
     icon: "/figma/icon-automated.svg",
     glow: "linear-gradient(90deg, #90c0ff 0%, #66a3ff 50%, #8f8cff 100%)",
   },
   {
-    eyebrow: "Predict & Prevent",
-    title: ["IT Infrastructure", "Management"],
-    body: "Spot capacity, latency and failure risks early, then fix them before they become incidents.",
+    eyebrow: "Patent Tech Consulting",
+    title: ["Patent", "Gym™"],
+    body: "Harvest hidden patents, seed new ones and protect copyrights and trademarks, now powered by the Cortexa™ platform.",
+    tags: ["Harvesting", "Seeding", "Other IPs"],
+    href: "/patent-gym",
     icon: "/figma/icon-transfer.svg",
     glow: "linear-gradient(90deg, #9494ec 0%, #bfacff 36%, #90c0ff 67%, #66cfff 100%)",
   },
 ];
 
-type ServiceCardProps = (typeof SERVICES)[number] & { featured: boolean };
+type OfferCardProps = (typeof OFFERS)[number] & { featured: boolean };
 
 /** Gradient glow card; the glow follows the pointer and blooms on hover. */
-const ServiceCard = ({ eyebrow, title, body, icon, glow, featured }: ServiceCardProps) => {
+const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured }: OfferCardProps) => {
   const pointerX = useMotionValue(50);
   const pointerY = useMotionValue(0);
   const spotlight = useMotionTemplate`radial-gradient(420px circle at ${pointerX}% ${pointerY}%, rgb(28 116 250 / 0.10), transparent 60%)`;
@@ -46,9 +54,10 @@ const ServiceCard = ({ eyebrow, title, body, icon, glow, featured }: ServiceCard
   };
 
   return (
-    <article
+    <Link
+      href={href}
       onPointerMove={handlePointerMove}
-      className="group relative flex h-[320px] flex-col items-start justify-end gap-4 overflow-hidden rounded-xl border border-[#e4e4e4] p-6 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] sm:h-[360px]"
+      className="group relative flex h-[380px] flex-col items-start justify-end gap-4 overflow-hidden rounded-xl border border-[#e4e4e4] p-6 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:h-[400px]"
       style={{ backgroundImage: "linear-gradient(160.5deg, #fff 13.4%, #f0f0f0 186.6%)" }}
     >
       {/* Blurred colour wash (Figma 1146:32). Always on for the featured card, blooms on hover for the rest. */}
@@ -63,34 +72,37 @@ const ServiceCard = ({ eyebrow, title, body, icon, glow, featured }: ServiceCard
       <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: spotlight }} />
 
       <span
-        className={`absolute top-[18px] left-[23px] flex size-[55px] items-center justify-center rounded-[48px] backdrop-blur-[8.7px] transition-[transform,background-color] duration-500 ease-(--ease-out-expo) group-hover:scale-105 group-hover:rotate-[-8deg] ${
+        className={`absolute top-[18px] left-[23px] flex size-[55px] items-center justify-center rounded-[48px] backdrop-blur-[8.7px] transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-105 group-hover:rotate-[-8deg] ${
           featured ? "" : "bg-white shadow-[0_4px_14px_rgb(28_116_250/0.18)]"
         }`}
         style={featured ? { backgroundImage: "linear-gradient(140.7deg, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0.4) 91.8%)" } : undefined}
       >
-        <Image
-          src={icon}
-          alt=""
-          width={24}
-          height={24}
-        />
+        <Image src={icon} alt="" width={24} height={24} />
+      </span>
+      <span className="absolute top-6 right-6 flex size-9 items-center justify-center rounded-full bg-white/80 text-ink opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 max-sm:opacity-100 sm:-translate-x-2">
+        →
       </span>
 
-      <p className="relative font-mono text-[14px] leading-[0.98] font-medium tracking-[0.02em] text-muted uppercase sm:text-base">
-        {eyebrow}
-      </p>
+      <p className="relative font-mono text-[14px] leading-[0.98] font-medium tracking-[0.02em] text-muted uppercase sm:text-base">{eyebrow}</p>
       <h3 className="relative text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-ink">
         {title[0]}
         <br />
         {title[1]}
       </h3>
-      <p className="relative text-base leading-[1.2] tracking-[0.01em] text-muted">{body}</p>
-    </article>
+      <p className="relative text-base leading-[1.25] tracking-[0.01em] text-muted">{body}</p>
+      <ul className="relative flex flex-wrap gap-1.5">
+        {tags.map((tag) => (
+          <li key={tag} className="rounded-full border border-line bg-white/80 px-2.5 py-1 text-[12px] font-medium text-ink/80">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    </Link>
   );
 };
 
 export const Services = () => (
-  <section id="services" className="relative px-4 py-16 sm:px-8 lg:px-16">
+  <section id="offer" className="relative px-4 py-16 sm:px-8 lg:px-16">
     <div className="relative mx-auto flex max-w-[1169px] flex-col items-center gap-8">
       <motion.div
         aria-hidden
@@ -104,31 +116,39 @@ export const Services = () => (
       </motion.div>
 
       <SectionHeading
-        eyebrow="We Are"
-        title="Trusted by enterprise IT teams"
-        description="From IP strategy to cloud operations, one partner across the stack."
+        eyebrow="What We Offer"
+        title="Products, Services and Patent Gym™"
+        description="An AI-native innovation company: we build enterprise products, deliver engineering services and turn ideas into patents."
       />
 
       <Stagger className="grid w-full gap-6 md:grid-cols-3" stagger={0.12}>
-        {SERVICES.map((service, index) => (
-          <StaggerItem key={service.eyebrow}>
-            <ServiceCard {...service} featured={index === SERVICES.length - 1} />
+        {OFFERS.map((offer, index) => (
+          <StaggerItem key={offer.eyebrow}>
+            <OfferCard {...offer} featured={index === OFFERS.length - 1} />
           </StaggerItem>
         ))}
       </Stagger>
 
-      <Reveal className="flex w-full flex-col items-center gap-6">
-        <div className="flex flex-wrap items-center justify-center gap-[18px]">
+      <Reveal className="flex w-full flex-col items-center gap-5">
+        <p className="font-mono text-[13px] font-medium tracking-[0.06em] text-muted uppercase">Industries we serve</p>
+        <ul className="flex max-w-[760px] flex-wrap justify-center gap-2">
+          {INDUSTRIES.map((industry) => (
+            <li
+              key={industry}
+              className="rounded-full border border-line bg-white px-4 py-2 text-[15px] text-ink transition-colors duration-300 hover:border-brand/40 hover:text-brand"
+            >
+              {industry}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-[18px]">
           <Button href="#contact" withPhone>
             Book a call
           </Button>
-          <Button href="#products" variant="light">
-            Get Started <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          <Button href="/about" variant="light">
+            About Wise Work <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Button>
         </div>
-        <p className="max-w-[340px] text-center text-base leading-[1.3] tracking-[0.01em] text-muted">
-          Talk to an engineer, not a sales script. We reply within one business day.
-        </p>
       </Reveal>
     </div>
   </section>

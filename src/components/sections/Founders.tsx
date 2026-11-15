@@ -9,10 +9,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 const FOUNDERS = [
   {
     name: "Dr. Madhan Kumar Srinivasan",
-    role: "CEO",
+    role: "Founder and CEO",
     photo: "/figma/founder-madhan.png",
-    bio: "Inventor of 121 Patents | TEDx Speaker | Accenture Prolific Inventor & Infosys Cloud Tech Guru awardee | Cloud AI & Futuristic Tech Expert | Serial Entrepreneur with 20+ years of experience & 30+ research publications",
-    stat: { value: 120, suffix: "+", label: "Patent inventor" },
+    bio: "140+ patents filed, 100+ granted worldwide | Ph.D. in Cloud AI, IIM Calcutta (EPBA) | Accenture Prolific Inventor, 1 of 49 globally, and creator of Cloud AI at Accenture | Infosys Cloud Tech Guru | 3× TEDx Speaker | Invited speaker, WEF Annual Meeting 2024, Davos",
+    stat: { value: 140, suffix: "+", label: "Patents filed" },
   },
   {
     name: "Shivaram K R",
@@ -81,8 +81,8 @@ export const Founders = () => (
       <SectionHeading
         eyebrow="Meet Our"
         inline
-        title="Founders"
-        description="Inventors and operators who have built, scaled and exited deep-tech companies."
+        title="Leadership"
+        description="50+ years of combined leadership experience across AI, cloud and intellectual property."
         className="max-w-[520px]"
       />
       {FOUNDERS.map((founder, index) => (

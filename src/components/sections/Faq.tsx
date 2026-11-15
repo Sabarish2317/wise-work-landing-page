@@ -5,41 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useId, useState } from "react";
 import { EASE_OUT_EXPO, Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
-
-const FAQS = [
-  {
-    q: "Do you offer custom invoicing?",
-    a: "Yes. Enterprise plans can be invoiced monthly or annually, in INR, USD or GBP, with PO numbers and custom billing contacts.",
-  },
-  {
-    q: "What are the limits for each plan?",
-    a: "Limits are based on monitored hosts and data retention. Every plan includes unlimited users, dashboards and alert rules.",
-  },
-  {
-    q: "I went over my limits. What can I do?",
-    a: "Nothing breaks. We keep collecting data and let you know, then you can upgrade, add a host pack or trim noisy sources.",
-  },
-  {
-    q: "Can I buy additional bandwidth?",
-    a: "Yes. Ingest and bandwidth add-ons can be bought from the billing page at any time and are prorated for the current cycle.",
-  },
-  {
-    q: "I have a starter account, how do I upgrade to a paid plan?",
-    a: "Open Settings → Billing and pick a plan. Your data, dashboards and integrations carry over without any downtime.",
-  },
-  {
-    q: "Is there a limit to how many teams I can have?",
-    a: "No. Create as many teams and workspaces as you need, each with its own roles, alert routing and SSO groups.",
-  },
-  {
-    q: "I want to migrate my workloads to Wise Work. Is there a fee?",
-    a: "Migrations planned through Wise Migrate include onboarding at no extra cost. Large or regulated estates get a scoped quote.",
-  },
-  {
-    q: "How does Wise Work calculate usage?",
-    a: "Usage is the peak number of monitored hosts per hour, averaged across the month, plus any data retained beyond your plan.",
-  },
-];
+import { CONTACT, FAQS } from "@/content/site";
 
 type FaqItemProps = { question: string; answer: string; open: boolean; onToggle: () => void };
 
@@ -119,7 +85,7 @@ export const Faq = () => {
                 questions.
               </p>
             </div>
-            <Button href="mailto:hello@wisework.in" withPhone className="relative">
+            <Button href={`mailto:${CONTACT.email}`} withPhone className="relative">
               Send a mail
             </Button>
           </div>

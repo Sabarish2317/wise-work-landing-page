@@ -1,15 +1,33 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { EASE_OUT_EXPO, Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
+import { CONTACT, PRODUCTS } from "@/content/site";
 
 const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com", icon: "/figma/linkedin.svg" },
   { label: "X", href: "https://x.com", icon: "/figma/x.svg" },
   { label: "WhatsApp", href: "https://wa.me", icon: "/figma/whatsapp.svg" },
+];
+
+const LINK_GROUPS = [
+  {
+    title: "Products",
+    links: PRODUCTS.map((product) => ({ label: product.name, href: `/products/${product.slug}` })),
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "AI and IT Services", href: "/services" },
+      { label: "Patent Gym™", href: "/patent-gym" },
+      { label: "About Wise Work", href: "/about" },
+      { label: "Proven Impact", href: "/#impact" },
+    ],
+  },
 ];
 
 const WORDMARK = "WiseWork".split("");
@@ -18,7 +36,7 @@ export const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: footerRef, offset: ["start end", "end end"] });
   const glowX = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
-  const wordmarkY = useTransform(scrollYProgress, [0.3, 1], ["30%", "0%"]);
+  const wordmarkY = useTransform(scrollYProgress, [0.3, 1], ["12%", "0%"]);
 
   return (
     <footer
@@ -35,16 +53,17 @@ export const Footer = () => {
       <Reveal className="relative flex flex-col items-center gap-9 text-center text-white">
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-col gap-4">
-            <h2 className="text-[34px] leading-[1.1] font-medium tracking-[-0.01em] sm:text-[42px]">
-              Let&apos;s Work Together
-            </h2>
-            <p className="mx-auto max-w-[300px] text-base leading-[1.2] tracking-[0.01em] text-white/90">
-              Observability Platform, designed to predict and proactively manage your infrastructure swiftly.
+            <h2 className="text-[34px] leading-[1.1] font-medium tracking-[-0.01em] sm:text-[42px]">Let&apos;s Work Together</h2>
+            <p className="mx-auto max-w-[340px] text-base leading-[1.25] tracking-[0.01em] text-white/90">
+              Let&apos;s build a wiser tomorrow, today. Tell us what you&apos;re working on.
             </p>
           </div>
-          <Button href="mailto:hello@wisework.in" variant="white" withPhone className="py-[15px]">
+          <Button href={`mailto:${CONTACT.email}`} variant="white" withPhone className="py-[15px]">
             Book a call
           </Button>
+          <a href={`mailto:${CONTACT.email}`} className="text-[15px] font-medium text-white/90 underline-offset-4 hover:underline">
+            {CONTACT.email}
+          </a>
         </div>
         <ul className="flex items-center gap-7">
           {SOCIALS.map((social) => (
@@ -64,6 +83,33 @@ export const Footer = () => {
       </Reveal>
 
       <div className="relative flex w-full max-w-[1169px] flex-col gap-5 text-white">
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 border-t border-white/20 pt-8 sm:grid-cols-3">
+          {LINK_GROUPS.map((group) => (
+            <div key={group.title} className="flex flex-col gap-3">
+              <p className="font-mono text-[12px] tracking-[0.08em] text-white/60 uppercase">{group.title}</p>
+              <ul className="flex flex-col gap-2">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-[15px] text-white/90 transition-opacity hover:opacity-70">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="col-span-2 flex flex-col gap-3 sm:col-span-1">
+            <p className="font-mono text-[12px] tracking-[0.08em] text-white/60 uppercase">Where we work</p>
+            <ul className="flex flex-wrap gap-2">
+              {CONTACT.countries.map((country) => (
+                <li key={country} className="rounded-full border border-white/25 px-3 py-1 text-[14px] text-white/90">
+                  {country}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
         <motion.p
           aria-label="WiseWork"
           style={{ y: wordmarkY }}
@@ -88,7 +134,7 @@ export const Footer = () => {
           ))}
         </motion.p>
         <div className="flex flex-col items-center justify-between gap-2 text-sm leading-6 font-medium sm:flex-row">
-          <p>© WiseWork.in</p>
+          <p>© WiseWork.in · Since 2023</p>
           <div className="flex gap-4">
             <a href="#" className="transition-opacity hover:opacity-70">
               Terms

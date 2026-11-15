@@ -11,18 +11,25 @@ const MAP_WIDTH = 648;
 const MAP_HEIGHT = 432;
 
 /** Hub (white marker in the Figma map) and the offices it links to, in map pixel coordinates. */
-const HUB = { x: 442.3, y: 215.5, label: "India · HQ" };
+type LabelSide = "top" | "bottom" | "left";
+
+const LABEL_POSITION: Record<LabelSide, string> = {
+  top: "bottom-full left-1/2 mb-2 -translate-x-1/2",
+  bottom: "top-full left-1/2 mt-2 -translate-x-1/2",
+  left: "top-1/2 right-full mr-2 -translate-y-1/2",
+};
+
+const HUB = { x: 442.3, y: 215.5, label: "India · HQ", side: "bottom" as LabelSide };
 const OFFICES = [
-  { x: 152, y: 152, label: "USA" },
-  { x: 312, y: 112, label: "UK" },
-  { x: 487, y: 254, label: "Singapore" },
+  { x: 386, y: 190, label: "Saudi Arabia", side: "left" as LabelSide },
+  { x: 152, y: 152, label: "USA", side: "top" as LabelSide },
 ];
 
 const STATS = [
-  { value: 25, suffix: "+", label: "Clients" },
-  { value: 4, suffix: "", label: "Countries" },
-  { value: 80, suffix: "%", label: "ROI" },
-  { value: 800, suffix: "+", label: "Employees" },
+  { value: 20, suffix: "+", label: "Clients & partners" },
+  { value: 3, suffix: "", label: "Countries" },
+  { value: 20, suffix: "+", label: "MOUs signed" },
+  { value: 2023, suffix: "", label: "Founded" },
 ];
 
 const arcPath = (from: { x: number; y: number }, to: { x: number; y: number }) => {
@@ -64,7 +71,7 @@ export const Footprint = () => {
           eyebrow="Our"
           inline
           title="Global Footprint"
-          description="Our state-of-the-art Gen AI empowers a generational shift in the extraction of all intelligence."
+          description="Headquartered in India, delivering across Saudi Arabia and the USA, with MOUs across the USA, Europe, UK, Middle East and India."
           className="max-w-[380px]"
         />
 
@@ -115,8 +122,8 @@ export const Footprint = () => {
                   className={`relative block rounded-full ${isHub ? "size-[10px] border-[2.5px] border-brand bg-white" : "size-[8px] bg-brand ring-2 ring-white"}`}
                 />
                 <span
-                  className={`absolute bottom-full left-1/2 mb-2 -translate-x-1/2 rounded-md bg-ink px-2 py-1 text-[11px] font-medium whitespace-nowrap text-white transition-opacity duration-300 ${
-                    isHub ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  className={`absolute rounded-md px-2 py-1 text-[11px] font-medium whitespace-nowrap text-white ${LABEL_POSITION[point.side]} ${
+                    isHub ? "bg-ink" : "bg-brand"
                   }`}
                 >
                   {point.label}
@@ -130,7 +137,7 @@ export const Footprint = () => {
           {STATS.map((stat) => (
             <StaggerItem key={stat.label} className="flex flex-col items-center gap-2.5">
               <span className="font-mono text-[32px] leading-[1.2] font-medium tracking-[0.04em] text-ink">
-                <CountUp to={stat.value} suffix={stat.suffix} />
+                {stat.label === "Founded" ? stat.value : <CountUp to={stat.value} suffix={stat.suffix} />}
               </span>
               <motion.span
                 className="h-[3px] w-[44.6px] origin-center rounded-full bg-brand"
@@ -139,7 +146,7 @@ export const Footprint = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.4, duration: 0.9, ease: EASE_OUT_EXPO }}
               />
-              <span className="text-base leading-[1.2] font-medium tracking-[0.04em] text-ink">{stat.label}</span>
+              <span className="text-center text-base leading-[1.2] font-medium tracking-[0.04em] text-ink">{stat.label}</span>
             </StaggerItem>
           ))}
         </Stagger>

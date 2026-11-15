@@ -83,8 +83,8 @@ export const Hero = () => {
         }}
       />
 
-      <CursorTag label="Predict" color="#1c74fa" className="top-[38%] left-[12%]" delay={1.4} />
-      <CursorTag label="Prevent" color="#8b5cf6" className="top-[52%] right-[12%]" delay={1.7} />
+      <CursorTag label="Enterprise AI" color="#1c74fa" className="top-[66%] left-[13%]" delay={1.4} />
+      <CursorTag label="Patent Gym™" color="#8b5cf6" className="top-[60%] right-[13%]" delay={1.7} />
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
@@ -106,7 +106,8 @@ export const Hero = () => {
             {...fadeUp(0.8)}
             className="max-w-[560px] text-base leading-[1.3] tracking-[0.01em] text-muted text-balance sm:text-lg sm:leading-[1.2]"
           >
-            Observability Platform, designed to predict and proactively manage your infrastructure swiftly.
+            An AI-native company for enterprise AI, cloud and patent innovation. We build products, deliver
+            engineering services and turn ideas into patents.
           </motion.p>
         </div>
 
@@ -150,7 +151,13 @@ export const Hero = () => {
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
           </form>
-          <p className="text-base leading-[1.2] tracking-[0.01em] text-muted">Futuristic Innovation</p>
+          <p className="flex items-center gap-2 text-[15px] leading-[1.2] tracking-[0.01em] text-muted">
+            <span className="relative flex size-2">
+              <span className="absolute inset-0 animate-ping-soft rounded-full bg-good" />
+              <span className="relative size-2 rounded-full bg-good" />
+            </span>
+            Recognized by MCIT at LEAP 2026
+          </p>
         </motion.div>
       </motion.div>
     </section>

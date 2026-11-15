@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
 type Variant = "primary" | "light" | "white";
@@ -17,33 +18,48 @@ const phoneIcon: Record<Variant, string> = {
   white: "/figma/phone-dark.svg",
 };
 
-type ButtonProps = ComponentProps<"a"> & {
+type ButtonProps = Omit<ComponentProps<"a">, "href"> & {
+  href: string;
   variant?: Variant;
   withPhone?: boolean;
   children: ReactNode;
 };
 
-/** Pill-ish CTA from the design (18px radius, 16/24 padding). Rendered as a link. */
+/** Pill-ish CTA from the design (18px radius, 16/24 padding). Internal paths use next/link. */
 export const Button = ({
+  href,
   variant = "primary",
   withPhone = false,
   className = "",
   children,
   ...rest
-}: ButtonProps) => (
-  <a
-    className={`group inline-flex items-center justify-center gap-3 rounded-[18px] px-6 py-4 text-base leading-[1.2] font-medium tracking-[0.01em] whitespace-nowrap transition-[background-color,box-shadow,transform] duration-300 ease-(--ease-out-expo) hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${variantClass[variant]} ${className}`}
-    {...rest}
-  >
-    {withPhone && (
-      <Image
-        src={phoneIcon[variant]}
-        alt=""
-        width={18}
-        height={18}
-        className="transition-transform duration-500 group-hover:-rotate-12"
-      />
-    )}
-    {children}
-  </a>
-);
+}: ButtonProps) => {
+  const classes = `group inline-flex items-center justify-center gap-3 rounded-[18px] px-6 py-4 text-base leading-[1.2] font-medium tracking-[0.01em] whitespace-nowrap transition-[background-color,box-shadow,transform] duration-300 ease-(--ease-out-expo) hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${variantClass[variant]} ${className}`;
+  const content = (
+    <>
+      {withPhone && (
+        <Image
+          src={phoneIcon[variant]}
+          alt=""
+          width={18}
+          height={18}
+          className="transition-transform duration-500 group-hover:-rotate-12"
+        />
+      )}
+      {children}
+    </>
+  );
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={classes} {...rest}>
+        {content}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} className={classes} {...rest}>
+      {content}
+    </a>
+  );
+};
