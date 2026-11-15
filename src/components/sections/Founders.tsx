@@ -14,13 +14,6 @@ const FOUNDERS = [
     bio: "140+ patents filed, 100+ granted worldwide | Ph.D. in Cloud AI, IIM Calcutta (EPBA) | Accenture Prolific Inventor, 1 of 49 globally, and creator of Cloud AI at Accenture | Infosys Cloud Tech Guru | 3× TEDx Speaker | Invited speaker, WEF Annual Meeting 2024, Davos",
     stat: { value: 140, suffix: "+", label: "Patents filed" },
   },
-  {
-    name: "Shivaram K R",
-    role: "President",
-    photo: "/figma/founder-shivaram.png",
-    bio: "Serial Entrepreneur | Founder of 11 AI Startups | 4 First-time World Innovations | TEDx Speaker | AI Expert | Algo Trader | AI Advisor to World Economic Forum and Government of India | 20+ years of AI experience | IIT Delhi Alumni | Hands-on Coder",
-    stat: { value: 11, suffix: "", label: "AI startups Founder" },
-  },
 ];
 
 type FounderCardProps = (typeof FOUNDERS)[number] & { index: number };
