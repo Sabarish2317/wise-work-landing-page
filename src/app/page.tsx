@@ -7,6 +7,7 @@ import { Offerings } from "@/components/sections/Offerings";
 import { Products } from "@/components/sections/Products";
 import { Recognition } from "@/components/sections/Recognition";
 import { Services } from "@/components/sections/Services";
+import { Team } from "@/components/sections/Team";
 import { TrustBar } from "@/components/sections/TrustBar";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
       <Recognition />
       <Footprint />
       <Founders />
+      <Team />
       <Faq />
     </main>
   );

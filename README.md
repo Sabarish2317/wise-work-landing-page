@@ -17,11 +17,11 @@ npm run build && npm start
 
 | Route | Content |
 | --- | --- |
-| `/` | Hero, headline stats and client logos, the 4 flagship products, what we offer, AI & IT services deck, proven impact, MCIT recognition, global footprint, leadership, FAQ |
+| `/` | Hero with floating product widgets, headline stats and client logos, the 4 flagship products, what we offer, AI & IT services deck, proven impact, MCIT recognition, global footprint, leadership, team, FAQ |
 | `/products/[slug]` | `wise-ultima`, `wise-migrate`, `istruct`, `wise-maestro`: how it works, product tour, ROI snapshot, competitor comparison, client use cases |
 | `/services` | Service pillars, extra capabilities, AI email classification and Mentora case studies, tech stack, industries |
 | `/patent-gym` | Patent Harvesting, Seeding and Other IPs, testimonial, the Cortexa™ engines, MBrain™ architecture, design principles |
-| `/about` | At-a-glance stats, vision and missions, founder profile, MCIT recognition, academic ecosystem, footprint |
+| `/about` | At-a-glance stats, vision and missions, founder profile, team, MCIT recognition, academic ecosystem, footprint |
 
 ## Structure
 
@@ -45,3 +45,4 @@ All motion respects `prefers-reduced-motion`. The site is light mode only, as in
 - `public/figma/world-map.svg` was rebuilt from the Figma export as plain `<circle>`s (630 KB → 67 KB).
 - Client logos in `public/deck/clients/` were cut from the deck's logo wall.
 - Social links in the footer point to the platforms' home pages until real profile URLs are added.
+- The **Our Team** section (`TEAM` in `src/content/site.ts`) is placeholder data: "Full Name" entries with illustrated avatars. Replace the names, bios and LinkedIn links, and add a `photo` path to show a real portrait.

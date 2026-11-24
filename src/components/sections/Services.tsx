@@ -7,14 +7,14 @@ import type { PointerEvent } from "react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { INDUSTRIES } from "@/content/site";
+import { INDUSTRIES, PRODUCTS } from "@/content/site";
 
 const OFFERS = [
   {
     eyebrow: "4 Flagship Products",
     title: ["Enterprise AI", "Platforms"],
     body: "Wise Ultima™, Wise Migrate™, iStruct™ and Wise Maestro™ for infra health, migration, documents and knowledge.",
-    tags: ["Infra Health", "Cloud Migration", "Document AI", "Private GPT"],
+    tags: ["Infra Health", "Document AI", "Private GPT"],
     href: "/#products",
     icon: "/figma/icon-reports.svg",
     glow: "linear-gradient(90deg, #94ecc4 0%, #90c0ff 55%, #66cfff 100%)",
@@ -23,7 +23,7 @@ const OFFERS = [
     eyebrow: "End-to-End AI and IT",
     title: ["AI and IT", "Services"],
     body: "Gen AI and agentic AI, ML, custom development, IT consulting and process automation, delivered at scale and speed.",
-    tags: ["Gen AI", "Agentic AI", "Cloud", "Full-stack"],
+    tags: ["Agentic AI", "Cloud", "Full-stack"],
     href: "/services",
     icon: "/figma/icon-automated.svg",
     glow: "linear-gradient(90deg, #90c0ff 0%, #66a3ff 50%, #8f8cff 100%)",
@@ -39,10 +39,60 @@ const OFFERS = [
   },
 ];
 
-type OfferCardProps = (typeof OFFERS)[number] & { featured: boolean };
+const PRODUCT_LOGOS = PRODUCTS.map((product) => product.logo);
+
+/** Product wordmarks as small tiles that fan out on hover. */
+const ProductsVisual = () => (
+  <div className="grid grid-cols-2 gap-2">
+    {PRODUCT_LOGOS.map((logo, i) => (
+      <span
+        key={logo.src}
+        className={`flex h-9 w-[104px] items-center justify-center rounded-lg border border-line bg-white px-2 shadow-[0_6px_16px_-8px_rgb(28_116_250/0.35)] transition-transform duration-500 ease-(--ease-out-expo) ${
+          ["group-hover:-translate-x-1 group-hover:-translate-y-1", "group-hover:translate-x-1 group-hover:-translate-y-1", "group-hover:-translate-x-1 group-hover:translate-y-1", "group-hover:translate-x-1 group-hover:translate-y-1"][i]
+        }`}
+      >
+        <Image src={logo.src} alt="" width={logo.width} height={logo.height} className="h-5 w-auto" />
+      </span>
+    ))}
+  </div>
+);
+
+/** Data → LLM → Agent pipeline with a pulse travelling along it. */
+const ServicesVisual = () => (
+  <div className="relative flex items-center gap-6">
+    <span aria-hidden className="absolute inset-x-4 top-1/2 border-t border-dashed border-brand/40" />
+    <motion.span
+      aria-hidden
+      className="absolute top-1/2 left-4 size-2 -translate-y-1/2 rounded-full bg-brand shadow-[0_0_10px_#1c74fa]"
+      animate={{ left: ["8%", "88%"], opacity: [0, 1, 1, 0] }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+    />
+    {["Data", "LLM", "Agent"].map((node) => (
+      <span
+        key={node}
+        className="relative rounded-lg border border-line bg-white px-3 py-2 font-mono text-[12px] font-medium text-ink shadow-[0_6px_16px_-8px_rgb(28_116_250/0.35)]"
+      >
+        {node}
+      </span>
+    ))}
+  </div>
+);
+
+/** Headline patent count on a glass chip over the colour wash. */
+const PatentVisual = () => (
+  <div className="rounded-xl border border-white/60 bg-white/45 px-4 py-3 backdrop-blur-md">
+    <p className="font-mono text-[28px] leading-none font-medium text-ink">140+</p>
+    <p className="mt-1 text-[12px] text-ink/70">patents filed · 100+ granted</p>
+  </div>
+);
+
+const VISUALS = [ProductsVisual, ServicesVisual, PatentVisual];
+
+type OfferCardProps = (typeof OFFERS)[number] & { featured: boolean; index: number };
 
 /** Gradient glow card; the glow follows the pointer and blooms on hover. */
-const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured }: OfferCardProps) => {
+const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured, index }: OfferCardProps) => {
+  const Visual = VISUALS[index];
   const pointerX = useMotionValue(50);
   const pointerY = useMotionValue(0);
   const spotlight = useMotionTemplate`radial-gradient(420px circle at ${pointerX}% ${pointerY}%, rgb(28 116 250 / 0.10), transparent 60%)`;
@@ -57,7 +107,7 @@ const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured }: O
     <Link
       href={href}
       onPointerMove={handlePointerMove}
-      className="group relative flex h-[380px] flex-col items-start justify-end gap-4 overflow-hidden rounded-xl border border-[#e4e4e4] p-6 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:h-[400px]"
+      className="group relative flex h-[380px] flex-col items-start justify-end gap-4 overflow-hidden rounded-xl border border-[#e4e4e4] p-6 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:h-[420px]"
       style={{ backgroundImage: "linear-gradient(160.5deg, #fff 13.4%, #f0f0f0 186.6%)" }}
     >
       {/* Blurred colour wash (Figma 1146:32). Always on for the featured card, blooms on hover for the rest. */}
@@ -82,6 +132,10 @@ const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured }: O
       <span className="absolute top-6 right-6 flex size-9 items-center justify-center rounded-full bg-white/80 text-ink opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 max-sm:opacity-100 sm:-translate-x-2">
         →
       </span>
+
+      <div className="absolute inset-x-6 top-[92px] flex justify-center">
+        <Visual />
+      </div>
 
       <p className="relative font-mono text-[14px] leading-[0.98] font-medium tracking-[0.02em] text-muted uppercase sm:text-base">{eyebrow}</p>
       <h3 className="relative text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-ink">
@@ -124,7 +178,7 @@ export const Services = () => (
       <Stagger className="grid w-full gap-6 md:grid-cols-3" stagger={0.12}>
         {OFFERS.map((offer, index) => (
           <StaggerItem key={offer.eyebrow}>
-            <OfferCard {...offer} featured={index === OFFERS.length - 1} />
+            <OfferCard {...offer} index={index} featured={index === OFFERS.length - 1} />
           </StaggerItem>
         ))}
       </Stagger>

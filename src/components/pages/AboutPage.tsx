@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { EASE_OUT_EXPO, Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Footprint } from "@/components/sections/Footprint";
 import { Recognition } from "@/components/sections/Recognition";
+import { Team } from "@/components/sections/Team";
 import { Button } from "@/components/ui/Button";
 import { Card, Eyebrow } from "@/components/ui/Card";
 import { PageHero } from "@/components/ui/PageHero";
@@ -98,6 +99,8 @@ export const AboutPage = () => (
         </div>
       </Reveal>
     </Section>
+
+    <Team />
 
     <Recognition />
 

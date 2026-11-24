@@ -59,7 +59,7 @@ export const Faq = () => {
         amount={0.1}
         className="mx-auto flex max-w-[1169px] flex-col gap-12 rounded-t-[14px] border-2 border-line bg-white px-5 py-10 sm:p-10 lg:flex-row lg:justify-between lg:gap-16 lg:p-16"
       >
-        <div className="flex flex-col justify-between gap-10 lg:w-[383px]">
+        <div className="flex flex-col gap-10 lg:sticky lg:top-28 lg:w-[383px] lg:self-start">
           <div className="flex flex-col items-start gap-6">
             <span className="rounded-[64px] bg-brand px-5 py-3 font-mono text-[18px] leading-[1.3] font-medium tracking-[0.02em] text-white sm:text-[21px]">
               FAQ&apos;S

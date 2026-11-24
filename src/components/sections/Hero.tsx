@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useRef, useState, type FormEvent } from "react";
 import { EASE_OUT_EXPO } from "@/components/motion/Reveal";
 import { SplitWords } from "@/components/motion/SplitWords";
+import { HeroWidgets, HeroWidgetsCompact } from "./HeroWidgets";
 import { SwipeToBook } from "./SwipeToBook";
 
 const fadeUp = (delay: number) => ({
@@ -11,34 +12,6 @@ const fadeUp = (delay: number) => ({
   animate: { opacity: 1, y: 0, filter: "blur(0px)" },
   transition: { duration: 1, ease: EASE_OUT_EXPO, delay },
 });
-
-type CursorTagProps = { label: string; className: string; delay: number; color: string };
-
-const CursorTag = ({ label, className, delay, color }: CursorTagProps) => (
-  <motion.div
-    aria-hidden
-    initial={{ opacity: 0, scale: 0.6 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay, duration: 0.8, ease: EASE_OUT_EXPO }}
-    className={`pointer-events-none absolute hidden lg:block ${className}`}
-  >
-    <motion.div
-      animate={{ x: [0, 14, -6, 0], y: [0, -10, 8, 0] }}
-      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay }}
-      className="flex flex-col items-start"
-    >
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path d="M2 2l5.5 14 2.2-5.8L15.5 8 2 2z" fill={color} stroke="white" strokeWidth="1.4" strokeLinejoin="round" />
-      </svg>
-      <span
-        className="ml-3 rounded-full px-2.5 py-1 text-xs font-medium text-white shadow-[0_6px_16px_rgb(28_116_250/0.25)]"
-        style={{ backgroundColor: color }}
-      >
-        {label}
-      </span>
-    </motion.div>
-  </motion.div>
-);
 
 export const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -59,7 +32,7 @@ export const Hero = () => {
     <section
       id="top"
       ref={sectionRef}
-      className="relative flex min-h-[640px] items-center justify-center overflow-hidden px-4 pt-32 pb-20 sm:min-h-[720px] sm:px-8 sm:pt-36 lg:min-h-[600px] lg:pt-32 lg:pb-16"
+      className="relative flex min-h-[640px] items-center justify-center overflow-hidden px-4 pt-32 pb-20 sm:min-h-[720px] sm:px-8 sm:pt-36 lg:min-h-[600px] lg:pt-32 lg:pb-16 xl:pt-48 xl:pb-28"
     >
       {/* Soft violet + blue glow from the design (Group 1000002575). */}
       <motion.div
@@ -83,13 +56,12 @@ export const Hero = () => {
         }}
       />
 
-      <CursorTag label="Enterprise AI" color="#1c74fa" className="top-[66%] left-[13%]" delay={1.4} />
-      <CursorTag label="Patent Gym™" color="#8b5cf6" className="top-[60%] right-[13%]" delay={1.7} />
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
         className="relative flex w-full max-w-[1000px] flex-col items-center gap-8 text-center"
       >
+        <HeroWidgets sectionRef={sectionRef} />
         <motion.div {...fadeUp(0.1)}>
           <SwipeToBook />
         </motion.div>
@@ -159,6 +131,7 @@ export const Hero = () => {
             Recognized by MCIT at LEAP 2026
           </p>
         </motion.div>
+        <HeroWidgetsCompact />
       </motion.div>
     </section>
   );

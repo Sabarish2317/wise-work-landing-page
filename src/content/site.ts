@@ -602,3 +602,54 @@ export const NAV_LINKS = [
   { label: "Impact", href: "/#impact" },
   { label: "About", href: "/about" },
 ];
+
+/**
+ * PLACEHOLDER team members — not real people. Replace names, bios and links,
+ * and add a `photo` path to show a portrait instead of the illustrated avatar.
+ */
+export type TeamMember = {
+  name: string;
+  role: string;
+  team: string;
+  bio: string;
+  linkedin: string;
+  photo?: string;
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    name: "Full Name",
+    role: "Chief Executive Officer",
+    team: "Leadership",
+    bio: "Sets company direction and leads enterprise partnerships.",
+    linkedin: "#",
+  },
+  {
+    name: "Full Name",
+    role: "Chief Technology Officer",
+    team: "Leadership",
+    bio: "Owns platform architecture across all four products.",
+    linkedin: "#",
+  },
+  {
+    name: "Full Name",
+    role: "Lead AI Engineer",
+    team: "AI Engineering",
+    bio: "Builds agentic and RAG systems for Wise Maestro™.",
+    linkedin: "#",
+  },
+  {
+    name: "Full Name",
+    role: "AI Engineer",
+    team: "AI Engineering",
+    bio: "Works on Arabic and English document extraction in iStruct™.",
+    linkedin: "#",
+  },
+  {
+    name: "Full Name",
+    role: "ML Engineer",
+    team: "AI Engineering",
+    bio: "Trains the prediction models behind Wise Ultima™.",
+    linkedin: "#",
+  },
+];

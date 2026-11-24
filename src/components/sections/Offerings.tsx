@@ -133,7 +133,7 @@ export const Offerings = () => {
       </div>
 
       {/* Pinned card deck */}
-      <div id="offerings" ref={stackRef} className="relative mx-auto mt-16 h-[360vh] max-w-[1169px]">
+      <div id="offerings" ref={stackRef} className="relative mx-auto mt-4 h-[360vh] max-w-[1169px]">
         <div className="sticky top-0 flex h-svh items-center pt-20 pb-4 sm:py-6">
           <div className="relative h-[min(650px,100%)] w-full overflow-hidden rounded-[11px]">
             <motion.div style={{ filter: stageBlur, scale: stageScale }} className="absolute inset-0">

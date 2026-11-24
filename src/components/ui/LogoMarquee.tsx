@@ -9,14 +9,14 @@ export const LogoMarquee = () => (
         <li
           key={`${logo.file}-${i}`}
           aria-hidden={i >= CLIENT_LOGOS.length}
-          className="flex h-[72px] w-[148px] shrink-0 items-center justify-center rounded-xl border border-line bg-white px-5 py-3 sm:h-[84px] sm:w-[172px]"
+          className="flex h-[72px] w-[148px] shrink-0 items-center justify-center rounded-xl border border-line bg-white px-5 py-3 shadow-[var(--shadow-card)] sm:h-[84px] sm:w-[172px]"
         >
           <Image
             src={`/deck/clients/${logo.file}.webp`}
             alt={i >= CLIENT_LOGOS.length ? "" : logo.name}
             width={230}
             height={150}
-            className="max-h-full w-auto object-contain opacity-80 grayscale transition-[filter,opacity] duration-500 hover:opacity-100 hover:grayscale-0"
+            className="max-h-full w-auto object-contain transition-transform duration-500 hover:scale-105"
           />
         </li>
       ))}
