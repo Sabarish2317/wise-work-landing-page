@@ -5,6 +5,7 @@ import {
   motion,
   useMotionValueEvent,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -83,12 +84,17 @@ export const Offerings = () => {
     target: stackRef,
     offset: ["start start", "end end"],
   });
-  const deck = useTransform(stackProgress, [0.08, 0.92], [0, LAST], { clamp: true });
-  const stageBlur = useTransform(stackProgress, [0, 0.15], ["blur(0px)", "blur(4.45px)"]);
-  const stageScale = useTransform(stackProgress, [0, 1], [1.05, 1.25]);
+  // A light spring over raw scroll keeps the deck gliding on touch flicks and wheel steps alike.
+  const smoothProgress = useSpring(stackProgress, { stiffness: 150, damping: 28, mass: 0.35, restDelta: 0.0005 });
+  const deck = useTransform(smoothProgress, [0.08, 0.9], [0, LAST], { clamp: true });
+  const stageBlur = useTransform(smoothProgress, [0, 0.15], ["blur(0px)", "blur(4.45px)"]);
+  const stageScale = useTransform(smoothProgress, [0, 1], [1.05, 1.25]);
   const progressBar = useTransform(deck, [0, LAST], [0, 1]);
 
-  useMotionValueEvent(deck, "change", (value) => setActiveIndex(Math.round(value)));
+  useMotionValueEvent(deck, "change", (value) => {
+    const next = Math.round(value);
+    setActiveIndex((current) => (current === next ? current : next));
+  });
 
   return (
     <section aria-labelledby="offerings-title" className="relative px-4 pt-16 sm:px-8 lg:px-16">
@@ -132,37 +138,10 @@ export const Offerings = () => {
         </motion.div>
       </div>
 
-      {/* Phones: a plain list. A 360vh pinned deck is too much scrolling on a small screen. */}
-      <ol className="mx-auto mt-6 flex max-w-[1169px] flex-col gap-3 md:hidden">
-        {OFFERINGS.map((offering, index) => (
-          <motion.li
-            key={offering.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex gap-4 rounded-xl border border-[#e4e4e4] p-5 shadow-[var(--shadow-card)]"
-            style={{ backgroundImage: "linear-gradient(160.5deg, #fff 13.4%, #f0f0f0 186.6%)" }}
-          >
-            <span className="font-mono text-lg leading-none font-medium text-brand">{String(index + 1).padStart(2, "0")}</span>
-            <div className="flex flex-col gap-1.5">
-              <p className="font-mono text-[12px] leading-none font-medium tracking-[0.04em] text-muted uppercase">{offering.eyebrow}</p>
-              <h3 className="text-xl leading-[1.15] font-medium tracking-[-0.01em] text-ink">{offering.title}</h3>
-              <p className="text-[15px] leading-[1.4] text-muted">{offering.body}</p>
-            </div>
-          </motion.li>
-        ))}
-        <li className="pt-2 text-center">
-          <Link href="/services" className="text-[15px] font-medium text-ink underline-offset-4 hover:underline">
-            All services →
-          </Link>
-        </li>
-      </ol>
-
-      {/* Tablet and up: pinned card deck */}
-      <div id="offerings" ref={stackRef} className="relative mx-auto mt-4 hidden h-[360vh] max-w-[1169px] md:block">
-        <div className="sticky top-0 flex h-svh items-center pt-20 pb-4 sm:py-6">
-          <div className="relative h-[min(650px,100%)] w-full overflow-hidden rounded-[11px]">
+      {/* Pinned card deck. Phones get an edge-to-edge, full-height stage so it plays like a video. */}
+      <div id="offerings" ref={stackRef} className="relative -mx-4 mt-10 h-[320vh] sm:mx-auto sm:mt-4 sm:h-[360vh] sm:max-w-[1169px]">
+        <div className="sticky top-0 flex h-svh items-center sm:py-6">
+          <div className="relative h-full w-full overflow-hidden sm:h-[min(650px,100%)] sm:rounded-[11px]">
             <motion.div style={{ filter: stageBlur, scale: stageScale }} className="absolute inset-0">
               <Image
                 src="/figma/services-hero.png"
@@ -178,7 +157,7 @@ export const Offerings = () => {
               style={{ background: "radial-gradient(ellipse 45% 55% at 50% 50%, rgb(255 255 255 / 0.55), transparent 70%)" }}
             />
 
-            <div className="absolute top-5 left-5 z-20 flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 font-mono text-sm text-ink backdrop-blur-md sm:top-6 sm:left-6">
+            <div className="absolute top-24 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 rounded-full bg-white/70 px-4 py-2 font-mono text-sm text-ink backdrop-blur-md sm:top-6 sm:left-6 sm:translate-x-0">
               <span className="tabular-nums">
                 {String(activeIndex + 1).padStart(2, "0")} / {String(OFFERINGS.length).padStart(2, "0")}
               </span>
@@ -191,12 +170,12 @@ export const Offerings = () => {
             </div>
             <Link
               href="/services"
-              className="absolute right-5 bottom-5 z-20 rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-ink backdrop-blur-md transition-colors hover:bg-white sm:right-6 sm:bottom-6"
+              className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/80 px-4 py-2 text-sm font-medium whitespace-nowrap text-ink backdrop-blur-md transition-colors hover:bg-white sm:right-6 sm:bottom-6 sm:left-auto sm:translate-x-0"
             >
               All services →
             </Link>
 
-            <div className="absolute top-1/2 left-1/2 h-[340px] w-[min(340px,82%)] -translate-x-1/2 -translate-y-1/2 sm:h-[360px] sm:w-[373.67px]">
+            <div className="absolute top-1/2 left-1/2 h-[min(380px,52svh)] w-[min(330px,84%)] -translate-x-1/2 -translate-y-1/2 sm:h-[360px] sm:w-[373.67px]">
               {OFFERINGS.map((offering, index) => (
                 <StackCard key={offering.title} index={index} progress={deck} offering={offering} />
               ))}

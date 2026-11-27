@@ -9,7 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useEffect, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useState, type ComponentType, type ReactNode, type RefObject } from "react";
 import { EASE_OUT_EXPO } from "@/components/motion/Reveal";
 
 type WidgetProps = {
@@ -50,7 +50,7 @@ const Widget = ({ className, delay, depth, drift, pointerX, pointerY, scroll, ch
   );
 };
 
-const Header = ({ logo, title, badge }: { logo?: string; title: string; badge?: ReactNode }) => (
+export const WidgetHeader = ({ logo, title, badge }: { logo?: string; title: string; badge?: ReactNode }) => (
   <div className="mb-3 flex items-center justify-between gap-2">
     <span className="flex items-center gap-1.5 text-[13px] font-medium whitespace-nowrap text-[#1b1c20]">
       {logo && <Image src={logo} alt="" width={16} height={16} className="size-4" />}
@@ -60,7 +60,7 @@ const Header = ({ logo, title, badge }: { logo?: string; title: string; badge?: 
   </div>
 );
 
-const LiveBadge = () => (
+export const LiveBadge = () => (
   <span className="flex items-center gap-1 rounded-full bg-good/10 px-1.5 py-0.5 text-[10px] font-medium text-good">
     <span className="relative flex size-1.5">
       <span className="absolute inset-0 animate-ping-soft rounded-full bg-good" />
@@ -78,7 +78,7 @@ const HEALTH_ROWS = [
 
 const InfraHealth = () => (
   <>
-    <Header logo="/figma/critical-app.svg" title="Infra Health" badge={<LiveBadge />} />
+    <WidgetHeader logo="/figma/critical-app.svg" title="Infra Health" badge={<LiveBadge />} />
     <p className="font-mono text-[26px] leading-none font-medium text-ink">
       99.9<span className="text-[16px]">%</span>
     </p>
@@ -105,7 +105,7 @@ const InfraHealth = () => (
 
 const DocumentExtraction = () => (
   <>
-    <Header logo="/figma/icon-reports.svg" title="iStruct™" badge={<span className="text-[10px] text-muted">Job #2048</span>} />
+    <WidgetHeader logo="/figma/icon-reports.svg" title="iStruct™" badge={<span className="text-[10px] text-muted">Job #2048</span>} />
     <div className="flex flex-col gap-1.5">
       {[
         { label: "الإجمالي · Total", value: "SAR 12,450", score: 98 },
@@ -138,7 +138,7 @@ const DocumentExtraction = () => (
 
 const PatentScore = () => (
   <>
-    <Header title="Patent Gym™" badge={<span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[10px] font-medium text-brand">Seeding</span>} />
+    <WidgetHeader title="Patent Gym™" badge={<span className="rounded-full bg-brand/10 px-1.5 py-0.5 text-[10px] font-medium text-brand">Seeding</span>} />
     <p className="text-[12px] leading-[1.35] text-ink">Auto-healing for hybrid clusters</p>
     <div className="mt-3 flex flex-col gap-2">
       {[
@@ -174,7 +174,7 @@ const MaestroChat = () => {
 
   return (
     <>
-      <Header logo="/figma/icon-insights.svg" title="Wise Maestro™" badge={<span className="text-[10px] text-muted">Private GPT</span>} />
+      <WidgetHeader logo="/figma/icon-insights.svg" title="Wise Maestro™" badge={<span className="text-[10px] text-muted">Private GPT</span>} />
       <p className="ml-auto w-fit max-w-[88%] rounded-xl rounded-br-sm bg-brand px-2.5 py-1.5 text-[11px] leading-[1.35] text-white">
         Which contracts renew before Q1?
       </p>
@@ -200,11 +200,25 @@ const MaestroChat = () => {
   );
 };
 
-/**
- * Four product snippets placed around the hero copy, positioned against the copy column
- * (whose top is the "Swipe to Book" pill). Desktop (xl+) only; they would crowd smaller screens.
- */
-export const HeroWidgets = ({ sectionRef }: { sectionRef: RefObject<HTMLElement | null> }) => {
+type WidgetSlot = { className: string; delay: number; depth: number; drift: -1 | 1 };
+
+/** Where the four cards sit relative to the copy column (whose top is the first pill in the hero). */
+const HOME_SLOTS: WidgetSlot[] = [
+  { className: "top-[-96px] right-[calc(50%+150px)]", delay: 1.1, depth: -14, drift: -1 },
+  { className: "top-[236px] right-[calc(50%+300px)]", delay: 1.35, depth: 18, drift: -1 },
+  { className: "top-[-96px] left-[calc(50%+150px)]", delay: 1.25, depth: 16, drift: 1 },
+  { className: "top-[246px] left-[calc(50%+300px)]", delay: 1.5, depth: -12, drift: 1 },
+];
+
+type RingProps = {
+  sectionRef: RefObject<HTMLElement | null>;
+  /** Order: top-left, bottom-left, top-right, bottom-right. */
+  widgets: ComponentType[];
+  slots?: WidgetSlot[];
+};
+
+/** Four glass cards around the hero copy that follow the pointer. Desktop (xl+) only. */
+export const FloatingWidgetRing = ({ sectionRef, widgets, slots = HOME_SLOTS }: RingProps) => {
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const pointerX = useSpring(rawX, { stiffness: 60, damping: 18 });
@@ -227,32 +241,23 @@ export const HeroWidgets = ({ sectionRef }: { sectionRef: RefObject<HTMLElement 
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 hidden text-left xl:block">
-      <Widget className="top-[-96px] right-[calc(50%+150px)]" delay={1.1} depth={-14} drift={-1} {...shared}>
-        <InfraHealth />
-      </Widget>
-      <Widget className="top-[236px] right-[calc(50%+300px)]" delay={1.35} depth={18} drift={-1} {...shared}>
-        <DocumentExtraction />
-      </Widget>
-      <Widget className="top-[-96px] left-[calc(50%+150px)]" delay={1.25} depth={16} drift={1} {...shared}>
-        <PatentScore />
-      </Widget>
-      <Widget className="top-[246px] left-[calc(50%+300px)]" delay={1.5} depth={-12} drift={1} {...shared}>
-        <MaestroChat />
-      </Widget>
+      {widgets.map((Content, i) => (
+        <Widget key={i} {...slots[i]} {...shared}>
+          <Content />
+        </Widget>
+      ))}
     </div>
   );
 };
 
-const COMPACT_WIDGETS = [InfraHealth, MaestroChat, DocumentExtraction, PatentScore];
-
 /**
- * Below xl there is no room beside the copy, so the four widgets become a swipeable row under
+ * Below xl there is no room beside the copy, so the widgets become a swipeable row under
  * the call to action. Cards stay upright and full width so their text never wraps awkwardly.
  */
-export const HeroWidgetsCompact = () => (
+export const CompactWidgetRow = ({ widgets }: { widgets: ComponentType[] }) => (
   <div aria-hidden className="-mx-4 w-[calc(100%+2rem)] sm:-mx-8 sm:w-[calc(100%+4rem)] xl:hidden">
     <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pt-2 pb-6 sm:scroll-px-8 sm:px-8 md:justify-center-safe">
-      {COMPACT_WIDGETS.map((Content, i) => (
+      {widgets.map((Content, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0, y: 20 }}
@@ -266,3 +271,9 @@ export const HeroWidgetsCompact = () => (
     </div>
   </div>
 );
+
+export const HeroWidgets = ({ sectionRef }: { sectionRef: RefObject<HTMLElement | null> }) => (
+  <FloatingWidgetRing sectionRef={sectionRef} widgets={[InfraHealth, DocumentExtraction, PatentScore, MaestroChat]} />
+);
+
+export const HeroWidgetsCompact = () => <CompactWidgetRow widgets={[InfraHealth, MaestroChat, DocumentExtraction, PatentScore]} />;
