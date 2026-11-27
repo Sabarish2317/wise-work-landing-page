@@ -35,7 +35,7 @@ export const PageHero = ({ eyebrow, title, body, children }: PageHeroProps) => (
       >
         {eyebrow}
       </motion.span>
-      <h1 className="text-[38px] leading-[1] font-normal tracking-[-0.035em] text-ink sm:text-[52px] lg:text-[60px]">
+      <h1 className="text-[36px] leading-[1.06] font-normal tracking-[-0.035em] text-ink sm:text-[52px] sm:leading-[1.02] lg:text-[60px] [&_.block]:text-balance">
         <SplitWords immediate delay={0.1} lines={title} />
       </h1>
       <motion.p {...fadeUp(0.5)} className="max-w-[620px] text-base leading-[1.35] tracking-[0.01em] text-muted text-balance sm:text-lg">

@@ -13,7 +13,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ACADEMIC, CONTACT, FOUNDER, GLANCE_STATS, VISION } from "@/content/site";
 
 const Section = ({ children }: { children: React.ReactNode }) => (
-  <section className="relative px-4 py-14 sm:px-8 lg:px-16">
+  <section className="relative px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">{children}</div>
   </section>
 );
@@ -49,11 +49,11 @@ export const AboutPage = () => (
 
     <Section>
       <SectionHeading eyebrow="Our Vision" title={VISION.title} />
-      <Stagger className="grid w-full gap-4 md:grid-cols-3" stagger={0.1}>
+      <Stagger className="grid w-full gap-4 sm:grid-cols-3" stagger={0.1}>
         {VISION.missions.map((mission, i) => (
           <StaggerItem key={mission.title}>
-            <Card className="relative flex h-full min-h-[220px] flex-col justify-end gap-3 overflow-hidden p-6">
-              <span className="absolute top-4 right-5 font-mono text-[64px] leading-none font-medium text-brand/10">{i + 1}</span>
+            <Card className="relative flex h-full min-h-[200px] flex-col gap-3 overflow-hidden p-6">
+              <span className="mb-auto font-mono text-[48px] leading-none font-medium text-brand/15">{String(i + 1).padStart(2, "0")}</span>
               <Eyebrow>{mission.label}</Eyebrow>
               <h3 className="text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-ink">{mission.title}</h3>
               <p className="text-[15px] leading-[1.45] text-muted">{mission.body}</p>

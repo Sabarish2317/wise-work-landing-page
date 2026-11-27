@@ -10,7 +10,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CONTACT, EMAIL_CASE, INDUSTRIES, MENTORA_CASE, SERVICE_EXTRAS, SERVICE_PILLARS, TECH_GROUPS } from "@/content/site";
 
 const Section = ({ children }: { children: React.ReactNode }) => (
-  <section className="relative px-4 py-14 sm:px-8 lg:px-16">
+  <section className="relative px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">{children}</div>
   </section>
 );
@@ -34,7 +34,7 @@ export const ServicesPage = () => (
       <Stagger className="grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.08}>
         {SERVICE_PILLARS.map((pillar, i) => (
           <StaggerItem key={pillar.title}>
-            <Card className="group flex h-full min-h-[260px] flex-col justify-between gap-6 p-6 transition-transform duration-500 hover:-translate-y-1">
+            <Card className="group flex h-full flex-col justify-between gap-6 p-6 lg:min-h-[260px] transition-transform duration-500 hover:-translate-y-1">
               <div className="flex items-start justify-between">
                 <span className="flex size-12 items-center justify-center rounded-xl bg-white shadow-[var(--shadow-chip)] transition-transform duration-500 group-hover:rotate-[-6deg]">
                   <Image src={pillar.icon} alt="" width={24} height={24} />
@@ -61,7 +61,7 @@ export const ServicesPage = () => (
       </Reveal>
     </Section>
 
-    <section id="cases" className="relative scroll-mt-24 px-4 py-14 sm:px-8 lg:px-16">
+    <section id="cases" className="relative scroll-mt-24 px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
       <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">
         <SectionHeading eyebrow="In Production" title="Client use cases" />
 
@@ -77,7 +77,27 @@ export const ServicesPage = () => (
               </div>
               <Image src="/deck/client-trianz.webp" alt="Trianz" width={410} height={260} className="h-14 w-auto" />
             </div>
-            <div className="no-scrollbar overflow-x-auto rounded-xl border-2 border-line bg-white">
+            {/* Phones: one block per metric instead of a sideways-scrolling table. */}
+            <dl className="flex flex-col gap-3 sm:hidden">
+              {EMAIL_CASE.rows.map((row) => (
+                <div key={row.metric} className="rounded-xl border-2 border-line bg-white p-4">
+                  <dt className="font-mono text-[12px] font-medium tracking-[0.04em] text-muted uppercase">{row.metric}</dt>
+                  <dd className="mt-3 grid grid-cols-3 gap-2">
+                    {row.values.map((value, i) => (
+                      <span key={i} className="flex flex-col gap-1">
+                        <span className="text-[11px] leading-tight text-muted">{EMAIL_CASE.columns[i]}</span>
+                        <span
+                          className={`font-mono text-[15px] leading-tight ${i === 2 ? "font-medium text-brand" : i === 1 ? "text-muted line-through decoration-bad/40" : "text-ink"}`}
+                        >
+                          {value}
+                        </span>
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <div className="no-scrollbar hidden overflow-x-auto rounded-xl border-2 border-line bg-white sm:block">
               <table className="w-full min-w-[560px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-line">

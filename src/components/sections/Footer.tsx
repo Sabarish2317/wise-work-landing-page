@@ -36,7 +36,6 @@ export const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: footerRef, offset: ["start end", "end end"] });
   const glowX = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
-  const wordmarkY = useTransform(scrollYProgress, [0.3, 1], ["12%", "0%"]);
 
   return (
     <footer
@@ -112,7 +111,6 @@ export const Footer = () => {
 
         <motion.p
           aria-label="WiseWork"
-          style={{ y: wordmarkY }}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}

@@ -52,7 +52,7 @@ const Widget = ({ className, delay, depth, drift, pointerX, pointerY, scroll, ch
 
 const Header = ({ logo, title, badge }: { logo?: string; title: string; badge?: ReactNode }) => (
   <div className="mb-3 flex items-center justify-between gap-2">
-    <span className="flex items-center gap-1.5 text-[13px] font-medium text-[#1b1c20]">
+    <span className="flex items-center gap-1.5 text-[13px] font-medium whitespace-nowrap text-[#1b1c20]">
       {logo && <Image src={logo} alt="" width={16} height={16} className="size-4" />}
       {title}
     </span>
@@ -174,7 +174,7 @@ const MaestroChat = () => {
 
   return (
     <>
-      <Header logo="/figma/icon-insights.svg" title="Wise Maestro™" badge={<span className="text-[10px] text-muted max-sm:hidden">Private GPT</span>} />
+      <Header logo="/figma/icon-insights.svg" title="Wise Maestro™" badge={<span className="text-[10px] text-muted">Private GPT</span>} />
       <p className="ml-auto w-fit max-w-[88%] rounded-xl rounded-br-sm bg-brand px-2.5 py-1.5 text-[11px] leading-[1.35] text-white">
         Which contracts renew before Q1?
       </p>
@@ -243,25 +243,26 @@ export const HeroWidgets = ({ sectionRef }: { sectionRef: RefObject<HTMLElement 
   );
 };
 
-const CompactCard = ({ className, delay, children }: { className: string; delay: number; children: ReactNode }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 24 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1, ease: EASE_OUT_EXPO, delay }}
-    className={`w-[172px] shrink-0 rounded-2xl border-[1.5px] border-line bg-white/85 p-3.5 text-left shadow-[0_18px_50px_-18px_rgb(28_116_250/0.35)] backdrop-blur-md sm:w-[220px] ${className}`}
-  >
-    {children}
-  </motion.div>
-);
+const COMPACT_WIDGETS = [InfraHealth, MaestroChat, DocumentExtraction, PatentScore];
 
-/** Below xl there is no side space, so two of the widgets sit fanned out under the call to action. */
+/**
+ * Below xl there is no room beside the copy, so the four widgets become a swipeable row under
+ * the call to action. Cards stay upright and full width so their text never wraps awkwardly.
+ */
 export const HeroWidgetsCompact = () => (
-  <div aria-hidden className="flex justify-center pt-2 xl:hidden">
-    <CompactCard className="relative z-[1] -rotate-[5deg] translate-x-3 translate-y-2" delay={1.1}>
-      <InfraHealth />
-    </CompactCard>
-    <CompactCard className="rotate-[4deg] -translate-x-3" delay={1.3}>
-      <MaestroChat />
-    </CompactCard>
+  <div aria-hidden className="-mx-4 w-[calc(100%+2rem)] sm:-mx-8 sm:w-[calc(100%+4rem)] xl:hidden">
+    <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pt-2 pb-6 sm:scroll-px-8 sm:px-8 md:justify-center-safe">
+      {COMPACT_WIDGETS.map((Content, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE_OUT_EXPO, delay: 1 + i * 0.1 }}
+          className="w-[236px] shrink-0 snap-start rounded-2xl border-[1.5px] border-line bg-white/90 p-3.5 text-left shadow-[0_14px_40px_-18px_rgb(28_116_250/0.35)]"
+        >
+          <Content />
+        </motion.div>
+      ))}
+    </div>
   </div>
 );

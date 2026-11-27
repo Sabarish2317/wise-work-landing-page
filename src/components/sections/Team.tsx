@@ -67,7 +67,7 @@ const MemberCard = ({ member, index }: { member: TeamMember; index: number }) =>
 );
 
 export const Team = () => (
-  <section id="team" className="relative scroll-mt-24 px-4 py-16 sm:px-8 lg:px-16">
+  <section id="team" className="relative scroll-mt-24 px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">
       <SectionHeading
         eyebrow="Our"
@@ -76,12 +76,12 @@ export const Team = () => (
         description="The engineers and operators who build, ship and run our platforms."
       />
       <Stagger
-        className="no-scrollbar -mx-4 flex w-[calc(100%+2rem)] snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:w-full sm:grid-cols-3 sm:overflow-visible sm:px-0 lg:grid-cols-5"
+        className="no-scrollbar -mx-4 flex w-[calc(100%+2rem)] snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:scroll-px-8 sm:px-8 lg:-mx-16 lg:w-[calc(100%+8rem)] lg:scroll-px-16 lg:px-16 xl:mx-0 xl:grid xl:w-full xl:grid-cols-5 xl:overflow-visible xl:px-0 xl:pb-0"
         stagger={0.08}
         amount={0.2}
       >
         {TEAM.map((member, index) => (
-          <StaggerItem key={`${member.role}-${index}`} className="w-[68%] shrink-0 snap-center sm:w-auto">
+          <StaggerItem key={`${member.role}-${index}`} className="w-[72%] max-w-[260px] shrink-0 snap-start sm:w-[240px] xl:w-auto xl:max-w-none">
             <MemberCard member={member} index={index} />
           </StaggerItem>
         ))}

@@ -35,10 +35,10 @@ export const Header = () => {
       >
         <Link href="/" className="flex items-center gap-3 py-0.5" aria-label="Wise Work home">
           <Image src="/figma/logo.svg" alt="" width={49} height={38} priority className="h-[30px] w-auto sm:h-[37.5px]" />
-          <span className="text-[17px] font-semibold text-[#00283b] sm:text-lg">Wise Work</span>
+          <span className="text-[17px] font-semibold whitespace-nowrap text-[#00283b] sm:text-lg">Wise Work</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -46,7 +46,7 @@ export const Header = () => {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-full px-3.5 py-2 text-[15px] transition-colors duration-300 hover:bg-black/[0.04] hover:text-ink ${
+                className={`rounded-full px-3.5 py-2 text-[15px] whitespace-nowrap transition-colors duration-300 hover:bg-black/[0.04] hover:text-ink ${
                   active ? "bg-black/[0.05] text-ink" : "text-ink/70"
                 }`}
               >
@@ -59,13 +59,13 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <a
             href="#contact"
-            className="hidden rounded-xl bg-brand px-[18px] py-3 text-[15px] leading-none font-medium text-white transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-[#0f66ea] hover:shadow-[0_8px_20px_#9cc3ff] active:scale-[0.97] sm:inline-flex"
+            className="hidden rounded-xl bg-brand px-[18px] py-3 text-[15px] leading-none font-medium whitespace-nowrap text-white transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-[#0f66ea] hover:shadow-[0_8px_20px_#9cc3ff] active:scale-[0.97] sm:inline-flex"
           >
             Contact Us
           </a>
           <button
             type="button"
-            className="relative flex size-11 items-center justify-center rounded-xl md:hidden"
+            className="relative flex size-11 items-center justify-center rounded-xl lg:hidden"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
@@ -88,7 +88,7 @@ export const Header = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.35, ease: EASE_OUT_EXPO }}
-            className="mx-auto mt-2 flex max-w-[1169px] origin-top flex-col gap-1 rounded-2xl bg-white/90 p-2 shadow-[0_8px_30px_rgb(0_0_0/0.08)] ring-1 ring-black/5 backdrop-blur-xl md:hidden"
+            className="mx-auto mt-2 flex max-w-[1169px] origin-top flex-col gap-1 rounded-2xl bg-white/90 p-2 shadow-[0_8px_30px_rgb(0_0_0/0.08)] ring-1 ring-black/5 backdrop-blur-xl lg:hidden"
           >
             {[...NAV_LINKS, { label: "Contact Us", href: "#contact" }].map((link, i) => (
               <motion.div

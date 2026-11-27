@@ -10,7 +10,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CONTACT, PATENT_GYM } from "@/content/site";
 
 const Section = ({ children }: { children: React.ReactNode }) => (
-  <section className="relative px-4 py-14 sm:px-8 lg:px-16">
+  <section className="relative px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">{children}</div>
   </section>
 );
@@ -77,7 +77,7 @@ export const PatentGymPage = () => (
       </Reveal>
     </Section>
 
-    <section id="cortexa" className="relative scroll-mt-24 px-4 py-14 sm:px-8 lg:px-16">
+    <section id="cortexa" className="relative scroll-mt-24 px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
       <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">
         <Reveal className="flex flex-col items-center gap-5 text-center">
           <Image src="/deck/logo-cortexa.webp" alt="Cortexa" width={690} height={139} className="h-10 w-auto mix-blend-multiply sm:h-12" />

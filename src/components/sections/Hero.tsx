@@ -67,7 +67,7 @@ export const Hero = () => {
         </motion.div>
 
         <div className="flex flex-col items-center gap-6">
-          <h1 className="text-[40px] leading-[0.98] font-normal tracking-[-0.035em] text-[#1e1e1e] sm:text-[52px] lg:text-[64px] lg:leading-[0.95] lg:[&_.block]:whitespace-nowrap">
+          <h1 className="text-[38px] leading-[1.06] font-normal tracking-[-0.035em] text-[#1e1e1e] sm:text-[52px] sm:leading-[1.02] lg:text-[64px] lg:leading-[0.98] [&_.block]:text-balance lg:[&_.block]:whitespace-nowrap">
             <SplitWords
               immediate
               delay={0.25}

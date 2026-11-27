@@ -15,7 +15,7 @@ export const Recognition = () => {
   const frontY = useTransform(scrollYProgress, [0, 1], [-20, 30]);
 
   return (
-    <section aria-labelledby="recognition-title" className="relative px-4 py-16 sm:px-8 lg:px-16">
+    <section aria-labelledby="recognition-title" className="relative px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
       <Reveal
         amount={0.15}
         className="mx-auto grid max-w-[1169px] items-center gap-10 overflow-hidden rounded-xl border-2 border-line bg-white p-6 sm:p-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:p-14"

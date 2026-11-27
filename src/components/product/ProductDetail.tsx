@@ -15,7 +15,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CONTACT, PRODUCTS, type Product } from "@/content/site";
 
 const Section = ({ id, children }: { id?: string; children: React.ReactNode }) => (
-  <section id={id} className="relative scroll-mt-24 px-4 py-14 sm:px-8 lg:px-16">
+  <section id={id} className="relative scroll-mt-24 px-4 py-10 sm:px-8 sm:py-14 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">{children}</div>
   </section>
 );

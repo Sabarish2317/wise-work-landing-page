@@ -53,7 +53,7 @@ const HIGHLIGHTS: Highlight[] = [
 ];
 
 export const Impact = () => (
-  <section id="impact" className="relative scroll-mt-24 px-4 py-16 sm:px-8 lg:px-16">
+  <section id="impact" className="relative scroll-mt-24 px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
     <div className="mx-auto flex max-w-[1169px] flex-col items-center gap-10">
       <SectionHeading
         eyebrow="Proven Impact"

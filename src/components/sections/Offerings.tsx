@@ -132,8 +132,35 @@ export const Offerings = () => {
         </motion.div>
       </div>
 
-      {/* Pinned card deck */}
-      <div id="offerings" ref={stackRef} className="relative mx-auto mt-4 h-[360vh] max-w-[1169px]">
+      {/* Phones: a plain list. A 360vh pinned deck is too much scrolling on a small screen. */}
+      <ol className="mx-auto mt-6 flex max-w-[1169px] flex-col gap-3 md:hidden">
+        {OFFERINGS.map((offering, index) => (
+          <motion.li
+            key={offering.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex gap-4 rounded-xl border border-[#e4e4e4] p-5 shadow-[var(--shadow-card)]"
+            style={{ backgroundImage: "linear-gradient(160.5deg, #fff 13.4%, #f0f0f0 186.6%)" }}
+          >
+            <span className="font-mono text-lg leading-none font-medium text-brand">{String(index + 1).padStart(2, "0")}</span>
+            <div className="flex flex-col gap-1.5">
+              <p className="font-mono text-[12px] leading-none font-medium tracking-[0.04em] text-muted uppercase">{offering.eyebrow}</p>
+              <h3 className="text-xl leading-[1.15] font-medium tracking-[-0.01em] text-ink">{offering.title}</h3>
+              <p className="text-[15px] leading-[1.4] text-muted">{offering.body}</p>
+            </div>
+          </motion.li>
+        ))}
+        <li className="pt-2 text-center">
+          <Link href="/services" className="text-[15px] font-medium text-ink underline-offset-4 hover:underline">
+            All services →
+          </Link>
+        </li>
+      </ol>
+
+      {/* Tablet and up: pinned card deck */}
+      <div id="offerings" ref={stackRef} className="relative mx-auto mt-4 hidden h-[360vh] max-w-[1169px] md:block">
         <div className="sticky top-0 flex h-svh items-center pt-20 pb-4 sm:py-6">
           <div className="relative h-[min(650px,100%)] w-full overflow-hidden rounded-[11px]">
             <motion.div style={{ filter: stageBlur, scale: stageScale }} className="absolute inset-0">

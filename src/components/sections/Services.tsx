@@ -107,7 +107,7 @@ const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured, ind
     <Link
       href={href}
       onPointerMove={handlePointerMove}
-      className="group relative flex h-[380px] flex-col items-start justify-end gap-4 overflow-hidden rounded-xl border border-[#e4e4e4] p-6 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:h-[420px]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-[#e4e4e4] p-5 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgb(28_116_250/0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:p-6"
       style={{ backgroundImage: "linear-gradient(160.5deg, #fff 13.4%, #f0f0f0 186.6%)" }}
     >
       {/* Blurred colour wash (Figma 1146:32). Always on for the featured card, blooms on hover for the rest. */}
@@ -121,42 +121,46 @@ const OfferCard = ({ eyebrow, title, body, tags, href, icon, glow, featured, ind
       </div>
       <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: spotlight }} />
 
-      <span
-        className={`absolute top-[18px] left-[23px] flex size-[55px] items-center justify-center rounded-[48px] backdrop-blur-[8.7px] transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-105 group-hover:rotate-[-8deg] ${
-          featured ? "" : "bg-white shadow-[0_4px_14px_rgb(28_116_250/0.18)]"
-        }`}
-        style={featured ? { backgroundImage: "linear-gradient(140.7deg, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0.4) 91.8%)" } : undefined}
-      >
-        <Image src={icon} alt="" width={24} height={24} />
-      </span>
-      <span className="absolute top-6 right-6 flex size-9 items-center justify-center rounded-full bg-white/80 text-ink opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 max-sm:opacity-100 sm:-translate-x-2">
-        →
-      </span>
+      <div className="relative flex items-start justify-between">
+        <span
+          className={`flex size-[55px] shrink-0 items-center justify-center rounded-[48px] backdrop-blur-[8.7px] transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-105 group-hover:rotate-[-8deg] ${
+            featured ? "" : "bg-white shadow-[0_4px_14px_rgb(28_116_250/0.18)]"
+          }`}
+          style={featured ? { backgroundImage: "linear-gradient(140.7deg, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0.4) 91.8%)" } : undefined}
+        >
+          <Image src={icon} alt="" width={24} height={24} />
+        </span>
+        <span className="flex size-9 items-center justify-center rounded-full bg-white/80 text-ink transition-[opacity,transform] duration-500 lg:-translate-x-2 lg:opacity-0 lg:group-hover:translate-x-0 lg:group-hover:opacity-100">
+          →
+        </span>
+      </div>
 
-      <div className="absolute inset-x-6 top-[92px] flex justify-center">
+      <div className="relative flex flex-1 items-center justify-center py-6 sm:py-8">
         <Visual />
       </div>
 
-      <p className="relative font-mono text-[14px] leading-[0.98] font-medium tracking-[0.02em] text-muted uppercase sm:text-base">{eyebrow}</p>
-      <h3 className="relative text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-ink">
-        {title[0]}
-        <br />
-        {title[1]}
-      </h3>
-      <p className="relative text-base leading-[1.25] tracking-[0.01em] text-muted">{body}</p>
-      <ul className="relative flex flex-wrap gap-1.5">
-        {tags.map((tag) => (
-          <li key={tag} className="rounded-full border border-line bg-white/80 px-2.5 py-1 text-[12px] font-medium text-ink/80">
-            {tag}
-          </li>
-        ))}
-      </ul>
+      <div className="relative flex flex-col items-start gap-4">
+        <p className="font-mono text-[14px] leading-[0.98] font-medium tracking-[0.02em] text-muted uppercase sm:text-base">{eyebrow}</p>
+        <h3 className="text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-ink">
+          {title[0]}
+          <br />
+          {title[1]}
+        </h3>
+        <p className="text-base leading-[1.25] tracking-[0.01em] text-muted">{body}</p>
+        <ul className="flex flex-wrap gap-1.5">
+          {tags.map((tag) => (
+            <li key={tag} className="rounded-full border border-line bg-white/80 px-2.5 py-1 text-[12px] font-medium text-ink/80">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </div>
     </Link>
   );
 };
 
 export const Services = () => (
-  <section id="offer" className="relative px-4 py-16 sm:px-8 lg:px-16">
+  <section id="offer" className="relative px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
     <div className="relative mx-auto flex max-w-[1169px] flex-col items-center gap-8">
       <motion.div
         aria-hidden
@@ -175,9 +179,9 @@ export const Services = () => (
         description="An AI-native innovation company: we build enterprise products, deliver engineering services and turn ideas into patents."
       />
 
-      <Stagger className="grid w-full gap-6 md:grid-cols-3" stagger={0.12}>
+      <Stagger className="grid w-full gap-5 md:grid-cols-2 md:[&>*:last-child]:col-span-2 lg:grid-cols-3 lg:gap-6 lg:[&>*:last-child]:col-span-1" stagger={0.12}>
         {OFFERS.map((offer, index) => (
-          <StaggerItem key={offer.eyebrow}>
+          <StaggerItem key={offer.eyebrow} className="h-full">
             <OfferCard {...offer} index={index} featured={index === OFFERS.length - 1} />
           </StaggerItem>
         ))}
